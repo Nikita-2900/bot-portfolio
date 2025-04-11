@@ -39,7 +39,7 @@ class DB_Manager:
             """)
 
             cur.execute("""
-                CREATE TABLE IF NOT EXISTS projects_skills (
+                CREATE TABLE IF NOT EXISTS project_skills (
                     project_id INTEGER,
                     skill_id INTEGER,
                     FOREIGN KEY(skill_id) REFERENCES skills(skill_id),
@@ -76,6 +76,11 @@ class DB_Manager:
             values(?, ?, ?, ?)""" # Запиши сюда правильный SQL запрос
         self.__executemany(sql, data)
 
+    def insert_description(self, data):
+            sql = """INSERT INTO projects
+                (description)
+                values(?)""" # Запиши сюда правильный SQL запрос
+            self.__executemany(sql, data)
 
     def insert_skill(self, user_id, project_name, skill):
         sql = 'SELECT project_id FROM projects WHERE project_name = ? AND user_id = ?'
@@ -98,7 +103,7 @@ class DB_Manager:
         else: return None
 
     def get_projects(self, user_id):
-        sql = """SELECT FROM projects
+        sql = """SELECT * FROM projects
             WHERE user_id = ?""" # Запиши сюда правильный SQL запрос
         return self.__select_data(sql, data = (user_id,))
         
@@ -148,4 +153,4 @@ class DB_Manager:
 # if __name__ == '__main__':
 #     manager = DB_Manager(DATABASE)
 #     manager.default_insert()
-#     #протестируй методы здесь
+#протестируй методы здесь
